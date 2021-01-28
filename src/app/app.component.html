@@ -1,0 +1,7 @@
+<div>
+  <input type="file" (change)="fileChanged($event)"/>
+  <button type="button" (click)="loadImage()">Load</button>
+  <button *ngIf="loaded" type="button" (click)="convertImage()">Convert</button>
+  <button *ngIf="converted" type="button" (click)="saveImage()">Save</button>
+</div>
+<canvas #canvas [width]="width" [height]="height"></canvas>
