@@ -12,8 +12,10 @@
       <li role="listitem">Convert it to see the preview</li>
       <li role="listitem">Download file</li>
     </ol>
+    <p>
+      This is a beta version. Only standard mode (type 9) is supported currently. There are no format/size checks, errors, anything - use at your own risk.
+    </p>
   </mat-card-content>
-
   <mat-card-actions>
     <input type="file" (change)="fileChanged($event)"/>
     <button mat-raised-button color="primary" type="button" (click)="loadImage()">Load</button>
