@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ImageReaderService} from './image-reader.service';
-import {PaletteReducerService} from './palette-reducer.service';
-import {ChrdGeneratorService} from "./chrd-generator.service";
+import {ImageReaderService} from './services/image-reader.service';
+import {PaletteReducerService} from './services/palette-reducer.service';
+import {ChrdGeneratorService} from "./services/chrd-generator.service";
 
 @Component({
   selector: 'app-root',
@@ -20,9 +20,9 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private imageReader: ImageReaderService,
-    private paletteReducer: PaletteReducerService,
-    private chrdGenerator: ChrdGeneratorService,
+    private imageReaderService: ImageReaderService,
+    private paletteReducerService: PaletteReducerService,
+    private chrdGeneratorService: ChrdGeneratorService,
   ) {
   }
 
@@ -40,7 +40,7 @@ export class AppComponent implements AfterViewInit {
 
   loadImage() {
     if (this.file) {
-      this.imageReader.getImageData(this.file).subscribe(imageData => {
+      this.imageReaderService.getImageData(this.file).subscribe(imageData => {
         this.width = imageData.width;
         this.height = imageData.height;
         this.loaded = true;
@@ -59,15 +59,15 @@ export class AppComponent implements AfterViewInit {
       this.converted = true;
       let imageData = this.context.getImageData(0, 0, this.width, this.height);
       let resultImageData = this.context.getImageData(0, 0, this.width, this.height);
-      let reducedImageData = this.paletteReducer.reducePalette(imageData, resultImageData);
+      let reducedImageData = this.paletteReducerService.reducePalette(imageData, resultImageData);
       this.context.putImageData(reducedImageData, 0, 0);
     }
   }
 
   saveImage() {
-    let pixelsData = this.paletteReducer.pixelsData;
-    let attributesData = this.paletteReducer.attributesData;
-    let bytes = this.chrdGenerator.generate(this.width, this.height, pixelsData, attributesData);
+    let pixelsData = this.paletteReducerService.pixelsData;
+    let attributesData = this.paletteReducerService.attributesData;
+    let bytes = this.chrdGeneratorService.generate(this.width, this.height, pixelsData, attributesData);
     let dataUrl = "data:application/octet-stream;base64," + btoa(AppComponent.uint8ToString(bytes));
 
     const element = document.createElement('a');

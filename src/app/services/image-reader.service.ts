@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ImageDataInterface} from './image-data-interface';
+import {UploadedImageData} from '../models/uploaded-image-data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageReaderService {
 
-  getImageData(file: Blob): Observable<ImageDataInterface> {
+  getImageData(file: Blob): Observable<UploadedImageData> {
     return new Observable((observer) => {
       new Promise((resolve) => {
         let fileReader = new FileReader();
