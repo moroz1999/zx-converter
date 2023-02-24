@@ -1,0 +1,30 @@
+<mat-card>
+  <mat-card-content>
+    <h1>Client-side converter from PC images to ZX Spectrum's chr$</h1>
+    <p>Simple to use image converter to chr$ format.
+      <br/>
+      <a href="https://github.com/moroz1999/chrd-converter">https://github.com/moroz1999/chrd-converter</a> - sources at Github
+    </p>
+    <h2>How to use</h2>
+    <ol role="list">
+      <li role="listitem">Prepare PNG image in some PC editor</li>
+      <li role="listitem">Load it</li>
+      <li role="listitem">Convert it to see the preview</li>
+      <li role="listitem">Download file</li>
+    </ol>
+    <p>
+      This is a beta version. Only standard mode (type 9) is supported currently. There are no format/size checks, errors, anything - use at your own risk.
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <input type="file" (change)="fileChanged($event)"/>
+    <button mat-raised-button color="primary" type="button" (click)="loadImage()">Load</button>
+    <button mat-raised-button color="primary" *ngIf="loaded" type="button" (click)="convertImage()">Convert</button>
+    <button mat-raised-button color="warn" *ngIf="converted" type="button" (click)="saveImage()">Download</button>
+  </mat-card-actions>
+</mat-card>
+<mat-card>
+  <mat-card-content>
+    <canvas #canvas [width]="width" [height]="height"></canvas>
+  </mat-card-content>
+</mat-card>
