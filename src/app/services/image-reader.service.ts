@@ -1,37 +1,41 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {UploadedImageData} from '../models/uploaded-image-data';
+import {map, mergeMap, Observable, of} from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ImageReaderService {
 
-  getImageData(file: Blob): Observable<UploadedImageData> {
-    return new Observable((observer) => {
-      new Promise((resolve) => {
-        let fileReader = new FileReader();
-        fileReader.onload = () => resolve(fileReader.result);
+  public getImageData(file: Blob): Observable<HTMLImageElement> {
+    return new Observable<string | ArrayBuffer>((subscriber) => {
+        const errorCar = (error: string) => `Image reading failed ${error}`;
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          if (fileReader.result) {
+            subscriber.next(fileReader.result);
+          } else {
+            subscriber.error(errorCar(fileReader.error?.message + ''));
+          }
+        };
+        fileReader.onerror = err => subscriber.error(errorCar('Reading error'));
+        fileReader.onabort = err => subscriber.error(errorCar('Reading abort'));
+        fileReader.onloadend = err => subscriber.complete();
         fileReader.readAsDataURL(file);
-      }).then(
-        function (result: any) {
-          let image = new Image();
-          new Promise((resolve) => {
-            image.src = result.toString();
-            image.onload = resolve;
-          }).then(() => {
-              let imageData = {
-                'width': image.width,
-                'height': image.height,
-                'image': image
+      },
+    )
+      .pipe(
+        mergeMap(
+          result => {
+            return new Observable<HTMLImageElement>(subscriber => {
+              let image = new Image();
+              image.src = result.toString();
+              image.onload = () => {
+                subscriber.next(image);
+                subscriber.complete();
               };
-              observer.next(imageData);
-              observer.complete();
-            }
-          );
-        }
+            });
+          },
+        ),
       );
-    });
-
   }
 }

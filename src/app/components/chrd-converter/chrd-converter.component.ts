@@ -7,16 +7,16 @@ import {PaletteReducerService} from '../../services/palette-reducer.service';
 @Component({
   selector: 'app-chrd-converter',
   templateUrl: './chrd-converter.component.html',
-  styleUrls: ['./chrd-converter.component.scss']
+  styleUrls: ['./chrd-converter.component.scss'],
 })
 export class ChrdConverterComponent implements AfterViewInit {
-  title = 'chrdConverter';
-  width = 100;
-  height = 100;
-  loaded = false;
-  converted = false;
-  chrdFileName = "converted.chr$";
-  file?: File;
+  public width = 100;
+  public height = 100;
+  public loaded = false;
+  public converted = false;
+  public chrdFileName = 'converted.chr$';
+  public file?: File;
+  public error?: string;
   @ViewChild('canvas', {static: true}) canvas?: ElementRef<HTMLCanvasElement>;
 
   constructor(
@@ -36,22 +36,27 @@ export class ChrdConverterComponent implements AfterViewInit {
   fileChanged(event: Event) {
     const target = event.target as HTMLInputElement;
     this.file = (target.files as FileList)[0];
-    this.chrdFileName = this.file.name.split('.').slice(0, -1).join('.')+'.chr$';
+    this.chrdFileName = this.file.name.split('.').slice(0, -1).join('.') + '.chr$';
   }
 
   loadImage() {
     if (this.file) {
-      this.imageReaderService.getImageData(this.file).subscribe(imageData => {
-        this.width = imageData.width;
-        this.height = imageData.height;
-        this.loaded = true;
-        this.converted = false;
-        this.cdr.detectChanges();
+      this.imageReaderService.getImageData(this.file).subscribe(
+        imageData => {
+          this.width = imageData.width;
+          this.height = imageData.height;
+          this.loaded = true;
+          this.converted = false;
+          this.cdr.detectChanges();
 
-        if (this.context) {
-          this.context.drawImage(imageData.image, 0, 0);
-        }
-      });
+          if (this.context) {
+            this.context.drawImage(imageData, 0, 0);
+          }
+        },
+        error => this.error = error,
+        () => {
+        },
+      );
     }
   }
 
@@ -69,7 +74,7 @@ export class ChrdConverterComponent implements AfterViewInit {
     let pixelsData = this.paletteReducerService.pixelsData;
     let attributesData = this.paletteReducerService.attributesData;
     let bytes = this.chrdGeneratorService.generate(this.width, this.height, pixelsData, attributesData);
-    let dataUrl = "data:application/octet-stream;base64," + btoa(ChrdConverterComponent.uint8ToString(bytes));
+    let dataUrl = 'data:application/octet-stream;base64,' + btoa(ChrdConverterComponent.uint8ToString(bytes));
 
     const element = document.createElement('a');
     element.setAttribute('href', dataUrl);

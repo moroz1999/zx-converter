@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+
+$converter-primary: mat.define-palette(mat.$indigo-palette);
+$converter-accent: $converter-primary;
+$converter-warn: mat.define-palette(mat.$red-palette);
+
+$converter-typography: mat.define-typography-config(
+  $font-family: Roboto,
+  $button: mat.define-typography-level(
+    $font-weight: 400,
+    $font-size: 14px,
+    $line-height: 1,
+    $letter-spacing: normal,
+  ),
+);
+
+$converter-theme: mat.define-light-theme((
+  color: (
+    primary: $converter-primary,
+    accent: $converter-accent,
+    warn: $converter-warn,
+  ),
+  typography: $converter-typography,
+  density: 0,
+));

@@ -1,0 +1,6 @@
+@use '@angular/material' as mat;
+@import "theme";
+
+@mixin error-message() {
+  color: mat.get-color-from-palette($converter-warn, 600);
+}
