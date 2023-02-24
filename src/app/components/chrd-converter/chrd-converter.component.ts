@@ -10,8 +10,8 @@ import {tap} from 'rxjs';
   styleUrls: ['./chrd-converter.component.scss'],
 })
 export class ChrdConverterComponent implements AfterViewInit {
-  public width = 100;
-  public height = 100;
+  public width = 0;
+  public height = 0;
   public loaded = false;
   public converted = false;
   public chrdFileName = 'converted.chr$';

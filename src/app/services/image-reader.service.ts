@@ -34,7 +34,7 @@ export class ImageReaderService {
                 subscriber.complete();
               };
               image.onerror = (error) => {
-                subscriber.error(error);
+                subscriber.error('Wrong file format provided');
               };
             });
           },

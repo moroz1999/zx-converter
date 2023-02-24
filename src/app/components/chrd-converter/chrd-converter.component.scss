@@ -3,3 +3,7 @@
 .error-message {
   @include error-message;
 }
+
+mat-card-actions {
+  gap: 10px;
+}
