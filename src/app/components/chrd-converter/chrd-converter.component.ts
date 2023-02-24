@@ -1,8 +1,8 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {ImageReaderService} from '../../services/image-reader.service';
-import {AppComponent} from '../../app.component';
 import {ChrdGeneratorService} from '../../services/chrd-generator.service';
 import {PaletteReducerService} from '../../services/palette-reducer.service';
+import {tap} from 'rxjs';
 
 @Component({
   selector: 'app-chrd-converter',
@@ -41,22 +41,27 @@ export class ChrdConverterComponent implements AfterViewInit {
 
   loadImage() {
     if (this.file) {
-      this.imageReaderService.getImageData(this.file).subscribe(
-        imageData => {
-          this.width = imageData.width;
-          this.height = imageData.height;
-          this.loaded = true;
-          this.converted = false;
-          this.cdr.detectChanges();
-
-          if (this.context) {
-            this.context.drawImage(imageData, 0, 0);
+      this.imageReaderService.getImageData(this.file)
+        .pipe(tap(imageData => {
+          if ((imageData.width % 8 !== 0) || (imageData.height % 8 !== 0)) {
+            throw new Error('Image width/height should be a multiple of 8');
           }
-        },
-        error => this.error = error,
-        () => {
-        },
-      );
+        }))
+        .subscribe({
+            next: imageData => {
+              this.width = imageData.width;
+              this.height = imageData.height;
+              this.loaded = true;
+              this.converted = false;
+              this.cdr.detectChanges();
+
+              if (this.context) {
+                this.context.drawImage(imageData, 0, 0);
+              }
+            },
+            error: (error) => this.error = error,
+          },
+        );
     }
   }
 

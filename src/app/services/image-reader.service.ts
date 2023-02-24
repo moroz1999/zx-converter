@@ -33,6 +33,9 @@ export class ImageReaderService {
                 subscriber.next(image);
                 subscriber.complete();
               };
+              image.onerror = (error) => {
+                subscriber.error(error);
+              };
             });
           },
         ),
