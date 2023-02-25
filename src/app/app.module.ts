@@ -8,6 +8,7 @@ import {ChrdConverterComponent} from './components/chrd-converter/chrd-converter
 import {MatTabsModule} from '@angular/material/tabs';
 import { ImageLoaderComponent } from './components/image-loader/image-loader.component';
 import { CanvasPreviewComponent } from './components/canvas-preview/canvas-preview.component';
+import { BscConverterComponent } from './components/bsc-converter/bsc-converter.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { CanvasPreviewComponent } from './components/canvas-preview/canvas-previ
     ChrdConverterComponent,
     ImageLoaderComponent,
     CanvasPreviewComponent,
+    BscConverterComponent,
   ],
   imports: [
     BrowserModule,

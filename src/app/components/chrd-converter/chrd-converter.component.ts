@@ -64,9 +64,9 @@ export class ChrdConverterComponent {
   }
 
   public saveImage() {
-    let pixelsData = this.paletteReducerService.pixelsData;
-    let attributesData = this.paletteReducerService.attributesData;
-    let bytes = this.chrdGeneratorService.generate(this.width, this.height, pixelsData, attributesData);
-    this.downloadGeneratorService.attemptDownload(bytes, this.chrdFileName);
+    // let pixelsData = this.paletteReducerService.pixelsData;
+    // let attributesData = this.paletteReducerService.attributesData;
+    // let bytes = this.chrdGeneratorService.generate(this.width, this.height, pixelsData, attributesData);
+    // this.downloadGeneratorService.attemptDownload(bytes, this.chrdFileName);
   }
 }

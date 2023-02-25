@@ -1,6 +1,4 @@
-import {FixedSizeArray} from 'fixed-size-array';
-
-export type SplitRgbColor = FixedSizeArray<3, number>;
+import {SplitRgbColor} from '../types/split-rgb-color';
 
 export class ColorInfo {
   diff?: number;
