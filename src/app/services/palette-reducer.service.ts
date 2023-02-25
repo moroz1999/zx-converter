@@ -62,7 +62,7 @@ export class PaletteReducerService {
     }
   }
 
-  reducePalette(imageData: ImageData, resultImageData: ImageData) {
+  public reducePalette(imageData: ImageData, resultImageData: ImageData) {
     this.imageData = imageData;
     this.resultImageData = resultImageData;
     this.pixelsData = [];

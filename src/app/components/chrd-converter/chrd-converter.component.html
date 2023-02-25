@@ -1,8 +1,7 @@
 <mat-card>
   <mat-card-header><h1>Client-side converter from PC images to ZX Spectrum's chr$</h1></mat-card-header>
   <mat-card-content>
-    <p>Simple to use image converter to chr$ format.
-      <br/>
+    <p>
       <a href="https://github.com/moroz1999/chrd-converter">https://github.com/moroz1999/chrd-converter</a> - sources at
       Github
     </p>
@@ -18,8 +17,11 @@
     </p>
   </mat-card-content>
   <mat-card-actions>
-    <input type="file" (change)="fileChanged($event)"/>
-    <button mat-raised-button color="primary" type="button" (click)="loadImage()">Load</button>
+    <app-image-loader
+      (imageLoaded)="imageLoaded($event)"
+      (imageError)="imageError($event)"
+      (imageFileName)="imageFileName($event)"
+    ></app-image-loader>
     <button mat-raised-button color="primary" *ngIf="loaded" type="button" (click)="convertImage()">Convert</button>
     <button mat-raised-button color="warn" *ngIf="converted" type="button" (click)="saveImage()">Download</button>
   </mat-card-actions>
@@ -27,8 +29,12 @@
 <mat-card *ngIf="error" class="error-message">
   <mat-card-content>{{ error }}</mat-card-content>
 </mat-card>
-<mat-card>
+<mat-card *ngIf="imageData">
   <mat-card-content>
-    <canvas #canvas [width]="width" [height]="height"></canvas>
+    <app-canvas-preview
+      [width]="width"
+      [height]="height"
+      [imageData]="imageData"
+    ></app-canvas-preview>
   </mat-card-content>
 </mat-card>
