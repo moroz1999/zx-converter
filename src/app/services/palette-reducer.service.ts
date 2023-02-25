@@ -62,9 +62,13 @@ export class PaletteReducerService {
     }
   }
 
-  public reducePalette(imageData: ImageData, resultImageData: ImageData) {
+  public reducePalette(imageData: ImageData) {
     this.imageData = imageData;
-    this.resultImageData = resultImageData;
+    this.resultImageData = new ImageData(
+      new Uint8ClampedArray(imageData.data),
+      imageData.width,
+      imageData.height,
+    );
     this.pixelsData = [];
     this.attributesData = [];
 
@@ -76,7 +80,7 @@ export class PaletteReducerService {
         this.processAttribute(x, y);
       }
     }
-    return resultImageData;
+    return this.resultImageData;
   }
 
   private processAttribute(attrX: number, attrY: number): void {

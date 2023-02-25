@@ -19,7 +19,6 @@
   <mat-card-actions>
     <app-image-loader
       (imageLoaded)="imageLoaded($event)"
-      (imageError)="imageError($event)"
       (imageFileName)="imageFileName($event)"
     ></app-image-loader>
     <button mat-raised-button color="primary" *ngIf="loaded" type="button" (click)="convertImage()">Convert</button>

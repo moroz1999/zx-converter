@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {tap} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import {ImageReaderService} from '../../services/image-reader.service';
 
 @Component({
@@ -9,8 +9,7 @@ import {ImageReaderService} from '../../services/image-reader.service';
 })
 export class ImageLoaderComponent {
   public file?: File;
-  @Output() public imageLoaded = new EventEmitter<HTMLImageElement>();
-  @Output() public imageError = new EventEmitter<string>();
+  @Output() public imageLoaded = new EventEmitter<Observable<HTMLImageElement>>();
   @Output() public imageFileName = new EventEmitter<string>();
 
   constructor(
@@ -26,19 +25,7 @@ export class ImageLoaderComponent {
 
   loadImage() {
     if (this.file) {
-      this.imageReaderService.getImageData(this.file)
-        .pipe(tap(imageData => {
-          if ((imageData.width % 8 !== 0) || (imageData.height % 8 !== 0)) {
-            throw new Error('Image width/height should be a multiple of 8');
-          }
-        }))
-        .subscribe({
-            next: imageData => {
-              this.imageLoaded.emit(imageData);
-            },
-            error: (error) => this.imageError.emit(error),
-          },
-        );
+      this.imageLoaded.emit(this.imageReaderService.getImageData(this.file));
     }
   }
 }

@@ -4,6 +4,7 @@ import {ChrdGeneratorService} from '../../services/chrd-generator.service';
 import {PaletteReducerService} from '../../services/palette-reducer.service';
 import {DownloadGeneratorService} from '../../services/download-generator.service';
 import {ImageToDataService} from '../../services/image-to-data.service';
+import {Observable, tap} from 'rxjs';
 
 @Component({
   selector: 'app-chrd-converter',
@@ -32,17 +33,23 @@ export class ChrdConverterComponent {
   }
 
 
-  public imageLoaded(imageElement: HTMLImageElement) {
-    this.width = imageElement.width;
-    this.height = imageElement.height;
-    this.loaded = true;
-    this.converted = false;
-    this.error = undefined;
-    this.imageData = this.imageToDataService.convertToImageData(imageElement) ?? undefined;
-  }
-
-  public imageError(error: string) {
-    this.error = error;
+  public imageLoaded(imageElement: Observable<HTMLImageElement>) {
+    imageElement.pipe(tap(imageElement => {
+      if ((imageElement.width % 8 !== 0) || (imageElement.height % 8 !== 0)) {
+        throw new Error('Image width/height should be a multiple of 8');
+      }
+    })).subscribe({
+        next: imageElement => {
+          this.width = imageElement.width;
+          this.height = imageElement.height;
+          this.loaded = true;
+          this.converted = false;
+          this.error = undefined;
+          this.imageData = this.imageToDataService.convertToImageData(imageElement) ?? undefined;
+        },
+        error: error => this.error = error,
+      },
+    );
   }
 
   public imageFileName(fileName: string) {
@@ -50,11 +57,10 @@ export class ChrdConverterComponent {
   }
 
   public convertImage() {
-    //   this.converted = true;
-    //   let imageData = this.context.getImageData(0, 0, this.width, this.height);
-    //   let resultImageData = this.context.getImageData(0, 0, this.width, this.height);
-    //   let reducedImageData = this.paletteReducerService.reducePalette(imageData, resultImageData);
-    //   this.context.putImageData(reducedImageData, 0, 0);
+    if (this.imageData) {
+      this.converted = true;
+      this.imageData = this.paletteReducerService.reducePalette(this.imageData);
+    }
   }
 
   public saveImage() {
