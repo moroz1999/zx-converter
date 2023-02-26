@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ColorInfo} from '../models/color-info';
 import {SplitRgbColor} from '../types/split-rgb-color';
 import {ZxPalette} from '../models/zx-palette';
+import {ZxScreen} from '../models/zx-screen';
 
 interface SplitPalette {
   [key: string]: SplitRgbColor;
@@ -32,8 +33,8 @@ export class ZxScreenService {
   };
   private readonly splitPalette: SplitPalette;
   private imageData?: ImageData;
-  public pixelsData: Array<Array<number>> = [];
-  public attributesData: Array<Array<string>> = [];
+  private pixels: Array<Array<number>> = [];
+  private attributes: Array<Array<string>> = [];
 
   constructor() {
     this.splitPalette = {};
@@ -42,10 +43,10 @@ export class ZxScreenService {
     }
   }
 
-  public convertToScreen(imageData: ImageData) {
+  public convertToScreen(imageData: ImageData): ZxScreen {
     this.imageData = imageData;
-    this.pixelsData = [];
-    this.attributesData = [];
+    this.pixels = [];
+    this.attributes = [];
 
     let width = Math.ceil(imageData.width / 8);
     let height = Math.ceil(imageData.height / 8);
@@ -55,6 +56,10 @@ export class ZxScreenService {
         this.processAttribute(x, y);
       }
     }
+    return {
+      pixels: this.pixels,
+      attributes: this.attributes,
+    };
   }
 
   private processAttribute(attrX: number, attrY: number): void {
@@ -74,7 +79,7 @@ export class ZxScreenService {
       }
     }
 
-    let usedColorsIndex:  { [key: string]: number } = {};
+    let usedColorsIndex: { [key: string]: number } = {};
     for (let info of colors) {
       let closest = new ColorInfo();
 
@@ -130,19 +135,19 @@ export class ZxScreenService {
   };
 
   private setZxPixel(ink: boolean, x: number, y: number, colorCode: string): void {
-    if (!this.pixelsData[y]) {
-      this.pixelsData[y] = [];
+    if (!this.pixels[y]) {
+      this.pixels[y] = [];
     }
-    this.pixelsData[y][x] = ink ? 1 : 0;
+    this.pixels[y][x] = ink ? 1 : 0;
 
     let attrX = Math.floor(x / 8);
     let attrY = Math.floor(y / 8);
-    if (!this.attributesData[attrY]) {
-      this.attributesData[attrY] = [];
+    if (!this.attributes[attrY]) {
+      this.attributes[attrY] = [];
     }
     let attribute = '00000000';
-    if (this.attributesData[attrY][attrX]) {
-      attribute = this.attributesData[attrY][attrX];
+    if (this.attributes[attrY][attrX]) {
+      attribute = this.attributes[attrY][attrX];
     }
 
     let brightness;
@@ -157,7 +162,7 @@ export class ZxScreenService {
     } else {
       attribute = '0' + brightness + colorCode.substr(1, 3) + attribute.substr(5, 3);
     }
-    this.attributesData[attrY][attrX] = attribute;
+    this.attributes[attrY][attrX] = attribute;
   }
 
   private static imageColorAt(imageData: ImageData, x: number, y: number): SplitRgbColor {

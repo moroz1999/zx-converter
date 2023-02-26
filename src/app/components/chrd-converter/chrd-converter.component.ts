@@ -30,7 +30,7 @@ export class ChrdConverterComponent {
     private chrdGeneratorService: ChrdGeneratorService,
     private downloadGeneratorService: DownloadGeneratorService,
     private imageToDataService: ImageToDataService,
-    private zxScreenService: ZxScreenService
+    private zxScreenService: ZxScreenService,
   ) {
   }
 
@@ -67,11 +67,8 @@ export class ChrdConverterComponent {
 
   public saveImage() {
     if (this.imageData) {
-      this.zxScreenService.convertToScreen(this.imageData);
-
-      let pixelsData = this.zxScreenService.pixelsData;
-      let attributesData = this.zxScreenService.attributesData;
-      let bytes = this.chrdGeneratorService.generate(this.width, this.height, pixelsData, attributesData);
+      const data = this.zxScreenService.convertToScreen(this.imageData);
+      let bytes = this.chrdGeneratorService.generate(this.width, this.height, data.pixels, data.attributes);
       this.downloadGeneratorService.attemptDownload(bytes, this.chrdFileName);
     }
   }
