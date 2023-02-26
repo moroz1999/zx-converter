@@ -1,0 +1,10 @@
+@import "../../scss/error-message";
+@import "../../scss/theme";
+
+.error-message {
+  @include error-message;
+}
+
+mat-card-actions {
+  gap: $gap-md;
+}

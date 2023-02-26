@@ -1,0 +1,7 @@
+@import "../../scss/theme";
+
+:host {
+  display: flex;
+  gap: $gap-md;
+  align-items: center;
+}

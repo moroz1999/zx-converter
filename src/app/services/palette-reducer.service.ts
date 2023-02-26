@@ -24,7 +24,6 @@ export class PaletteReducerService {
     for (const [code, color] of Object.entries(ZxPalette)) {
       this.splitPalette[code] = PaletteReducerService.splitRgb(color);
     }
-    console.log(this.splitPalette)
   }
 
   public reducePalette(imageData: ImageData) {

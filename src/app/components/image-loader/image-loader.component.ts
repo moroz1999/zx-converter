@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {Observable, tap} from 'rxjs';
+import {Observable} from 'rxjs';
 import {ImageReaderService} from '../../services/image-reader.service';
 
 @Component({
@@ -9,8 +9,8 @@ import {ImageReaderService} from '../../services/image-reader.service';
 })
 export class ImageLoaderComponent {
   public file?: File;
-  @Output() public imageLoaded = new EventEmitter<Observable<HTMLImageElement>>();
-  @Output() public imageFileName = new EventEmitter<string>();
+  @Output() public loaded = new EventEmitter<Observable<HTMLImageElement>>();
+  @Output() public fileName = new EventEmitter<string>();
 
   constructor(
     private imageReaderService: ImageReaderService,
@@ -20,12 +20,12 @@ export class ImageLoaderComponent {
   fileChanged(event: Event) {
     const target = event.target as HTMLInputElement;
     this.file = (target.files as FileList)[0];
-    this.imageFileName.emit(this.file.name);
+    this.fileName.emit(this.file.name);
   }
 
   loadImage() {
     if (this.file) {
-      this.imageLoaded.emit(this.imageReaderService.getImageData(this.file));
+      this.loaded.emit(this.imageReaderService.getImageData(this.file));
     }
   }
 }

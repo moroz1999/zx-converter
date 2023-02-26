@@ -3,10 +3,8 @@ import {ColorInfo} from '../models/color-info';
 import {SplitRgbColor} from '../types/split-rgb-color';
 import {ZxPalette} from '../models/zx-palette';
 import {ZxScreen} from '../models/zx-screen';
-
-interface SplitPalette {
-  [key: string]: SplitRgbColor;
-}
+import {SplitPalette} from '../models/split-palette';
+import {PaletteSplitterService} from './palette-splitter.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,11 +34,10 @@ export class ZxScreenService {
   private pixels: Array<Array<number>> = [];
   private attributes: Array<Array<string>> = [];
 
-  constructor() {
-    this.splitPalette = {};
-    for (let [code, color] of Object.entries(ZxPalette)) {
-      this.splitPalette[code] = ZxScreenService.splitRgb(color);
-    }
+  constructor(
+    private paletteSplitterService: PaletteSplitterService,
+  ) {
+    this.splitPalette = this.paletteSplitterService.splitPalette(ZxPalette);
   }
 
   public convertToScreen(imageData: ImageData): ZxScreen {
@@ -187,14 +184,6 @@ export class ZxScreenService {
     let weightG = 4.0;
     let weightB = 2 + (255 - rMean) / 256;
     return Math.sqrt(weightR * r * r + weightG * g * g + weightB * b * b);
-  };
-
-  private static splitRgb(rgb: number): SplitRgbColor {
-    let r = (rgb >> 16) & 0xFF;
-    let g = (rgb >> 8) & 0xFF;
-    let b = rgb & 0xFF;
-
-    return [r, g, b];
   };
 
 }
