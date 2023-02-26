@@ -5,6 +5,7 @@ import {PaletteReducerService} from '../../services/palette-reducer.service';
 import {DownloadGeneratorService} from '../../services/download-generator.service';
 import {ImageToDataService} from '../../services/image-to-data.service';
 import {Observable, tap} from 'rxjs';
+import {ZxScreenService} from '../../services/zx-screen.service';
 
 @Component({
   selector: 'app-chrd-converter',
@@ -29,6 +30,7 @@ export class ChrdConverterComponent {
     private chrdGeneratorService: ChrdGeneratorService,
     private downloadGeneratorService: DownloadGeneratorService,
     private imageToDataService: ImageToDataService,
+    private zxScreenService: ZxScreenService
   ) {
   }
 
@@ -64,9 +66,13 @@ export class ChrdConverterComponent {
   }
 
   public saveImage() {
-    // let pixelsData = this.paletteReducerService.pixelsData;
-    // let attributesData = this.paletteReducerService.attributesData;
-    // let bytes = this.chrdGeneratorService.generate(this.width, this.height, pixelsData, attributesData);
-    // this.downloadGeneratorService.attemptDownload(bytes, this.chrdFileName);
+    if (this.imageData) {
+      this.zxScreenService.convertToScreen(this.imageData);
+
+      let pixelsData = this.zxScreenService.pixelsData;
+      let attributesData = this.zxScreenService.attributesData;
+      let bytes = this.chrdGeneratorService.generate(this.width, this.height, pixelsData, attributesData);
+      this.downloadGeneratorService.attemptDownload(bytes, this.chrdFileName);
+    }
   }
 }

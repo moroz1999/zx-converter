@@ -3,8 +3,6 @@ import {ColorInfo} from '../models/color-info';
 import {SplitRgbColor} from '../types/split-rgb-color';
 import {ZxPalette} from '../models/zx-palette';
 
-type StringKeyIndex<T> = { [key: string]: T }
-
 interface SplitPalette {
   [key: string]: SplitRgbColor;
 }
@@ -13,7 +11,7 @@ interface SplitPalette {
   providedIn: 'root',
 })
 export class ZxScreenService {
-  private readonly pairColors: StringKeyIndex<string> = {
+  private readonly pairColors: { [key: string]: string } = {
     '0000': '1000',
     '0001': '1001',
     '0010': '1010',
@@ -34,7 +32,6 @@ export class ZxScreenService {
   };
   private readonly splitPalette: SplitPalette;
   private imageData?: ImageData;
-  private resultImageData?: ImageData;
   public pixelsData: Array<Array<number>> = [];
   public attributesData: Array<Array<string>> = [];
 
@@ -45,13 +42,8 @@ export class ZxScreenService {
     }
   }
 
-  public reducePalette(imageData: ImageData) {
+  public convertToScreen(imageData: ImageData) {
     this.imageData = imageData;
-    this.resultImageData = new ImageData(
-      new Uint8ClampedArray(imageData.data),
-      imageData.width,
-      imageData.height,
-    );
     this.pixelsData = [];
     this.attributesData = [];
 
@@ -63,11 +55,10 @@ export class ZxScreenService {
         this.processAttribute(x, y);
       }
     }
-    return this.resultImageData;
   }
 
   private processAttribute(attrX: number, attrY: number): void {
-    if (!this.imageData || !this.resultImageData) {
+    if (!this.imageData) {
       return;
     }
 
@@ -83,7 +74,7 @@ export class ZxScreenService {
       }
     }
 
-    let usedColorsIndex: StringKeyIndex<number> = {};
+    let usedColorsIndex:  { [key: string]: number } = {};
     for (let info of colors) {
       let closest = new ColorInfo();
 
@@ -131,16 +122,14 @@ export class ZxScreenService {
     for (let i in colors) {
       let info = colors[i];
       if (ZxScreenService.colorDiff(info['color'], this.splitPalette[maxColor]) < ZxScreenService.colorDiff(info['color'], this.splitPalette[minColor])) {
-        ZxScreenService.imageSetPixel(this.resultImageData, info['x'], info['y'], this.splitPalette[maxColor]);
-        this.setChrdPixel(true, info['x'], info['y'], maxColor);
+        this.setZxPixel(true, info['x'], info['y'], maxColor);
       } else {
-        ZxScreenService.imageSetPixel(this.resultImageData, info['x'], info['y'], this.splitPalette[minColor]);
-        this.setChrdPixel(false, info['x'], info['y'], minColor);
+        this.setZxPixel(false, info['x'], info['y'], minColor);
       }
     }
   };
 
-  private setChrdPixel(ink: boolean, x: number, y: number, colorCode: string): void {
+  private setZxPixel(ink: boolean, x: number, y: number, colorCode: string): void {
     if (!this.pixelsData[y]) {
       this.pixelsData[y] = [];
     }
@@ -177,15 +166,6 @@ export class ZxScreenService {
       imageData.data[canvasCoordinate], imageData.data[canvasCoordinate + 1],
       imageData.data[canvasCoordinate + 2],
     ];
-  };
-
-  private static imageSetPixel(imageData: ImageData, x: number, y: number, color: SplitRgbColor) {
-    let canvasCoordinate = (y * imageData.width + x) * 4;
-
-    imageData.data[canvasCoordinate] = color[0];
-    imageData.data[canvasCoordinate + 1] = color[1];
-    imageData.data[canvasCoordinate + 2] = color[2];
-    imageData.data[canvasCoordinate + 3] = 255;
   };
 
   private static colorDiff(rgb: SplitRgbColor, rgb2: SplitRgbColor) {

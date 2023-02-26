@@ -7,7 +7,6 @@ class ColorInfo {
   split?: SplitRgbColor;
 }
 
-
 interface SplitPalette {
   [key: string]: SplitRgbColor;
 }
@@ -25,6 +24,7 @@ export class PaletteReducerService {
     for (const [code, color] of Object.entries(ZxPalette)) {
       this.splitPalette[code] = PaletteReducerService.splitRgb(color);
     }
+    console.log(this.splitPalette)
   }
 
   public reducePalette(imageData: ImageData) {
@@ -106,13 +106,15 @@ export class PaletteReducerService {
   };
 
   private static sRgbToRgb(color: number) {
-    return Math.floor(
+    return color;
+    return Math.round(
       Math.pow((color / 255 + 0.055) / (1 + 0.055), 2.4) * 255,
     );
   }
 
   private static rgbToSrgb(color: number) {
-    return Math.floor(
+    return color;
+    return Math.round(
       ((1 + 0.55) * Math.pow(color / 255, 1 / 2.4) - 0.055) * 255,
     );
   }
