@@ -83,8 +83,8 @@ export class BscConverterComponent {
   }
 
   public saveImage() {
-    if (this.borderImageData && this.screenBytes) {
-      const borderBytes = this.borderReaderService.parseBorder(this.borderImageData);
+    if (this.imageData && this.screenBytes) {
+      const borderBytes = this.borderReaderService.parseBorder(this.imageData);
       const resultBytes = new Uint8Array(this.screenBytes.byteLength + borderBytes.byteLength);
       resultBytes.set(new Uint8Array(this.screenBytes));
       resultBytes.set(borderBytes, this.screenBytes.byteLength);
