@@ -1,16 +1,20 @@
 <mat-card>
-  <mat-card-content>
-    <p>
-      <a href="https://github.com/moroz1999/chrd-converter">https://github.com/moroz1999/zx-converter</a> - sources at
-      Github
-    </p>
-  </mat-card-content>
+    <mat-card-content>
+        <p>
+            <a href="https://github.com/moroz1999/chrd-converter">https://github.com/moroz1999/zx-converter</a> -
+            sources at
+            Github
+        </p>
+    </mat-card-content>
 </mat-card>
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-  <mat-tab label="CHRD">
-    <app-chrd-converter></app-chrd-converter>
-  </mat-tab>
-  <mat-tab label="BSC">
-    <app-bsc-converter></app-bsc-converter>
-  </mat-tab>
+    <mat-tab label="SCA">
+        <sca-converter></sca-converter>
+    </mat-tab>
+    <mat-tab label="CHRD">
+        <chrd-converter></chrd-converter>
+    </mat-tab>
+    <mat-tab label="BSC">
+        <bsc-converter></bsc-converter>
+    </mat-tab>
 </mat-tab-group>

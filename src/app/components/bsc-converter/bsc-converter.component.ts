@@ -9,7 +9,7 @@ import {ZxScreenService} from '../../services/zx-screen.service';
 import {BorderReaderService} from '../../services/border-reader.service';
 
 @Component({
-  selector: 'app-bsc-converter',
+  selector: 'bsc-converter',
   templateUrl: './bsc-converter.component.html',
   styleUrls: ['./bsc-converter.component.scss'],
 })
@@ -26,10 +26,7 @@ export class BscConverterComponent {
   public imageData?: ImageData;
 
   constructor(
-    private cdr: ChangeDetectorRef,
-    private imageReaderService: ImageReaderService,
     private paletteReducerService: PaletteReducerService,
-    private chrdGeneratorService: ChrdGeneratorService,
     private downloadGeneratorService: DownloadGeneratorService,
     private imageToDataService: ImageToDataService,
     private borderReaderService: BorderReaderService,

@@ -10,25 +10,27 @@ import {ImageLoaderComponent} from './components/image-loader/image-loader.compo
 import {CanvasPreviewComponent} from './components/canvas-preview/canvas-preview.component';
 import {BscConverterComponent} from './components/bsc-converter/bsc-converter.component';
 import {FileLoaderComponent} from './components/file-loader/file-loader.component';
+import {ScaConverterComponent} from './components/sca-converter/sca-converter.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ChrdConverterComponent,
-    FileLoaderComponent,
-    ImageLoaderComponent,
-    CanvasPreviewComponent,
-    BscConverterComponent,
-  ],
-  imports: [
-    BrowserModule,
-    NoopAnimationsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatTabsModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        ChrdConverterComponent,
+        FileLoaderComponent,
+        ImageLoaderComponent,
+        CanvasPreviewComponent,
+        BscConverterComponent,
+        ScaConverterComponent,
+    ],
+    imports: [
+        BrowserModule,
+        NoopAnimationsModule,
+        MatCardModule,
+        MatButtonModule,
+        MatTabsModule,
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
 })
 export class AppModule {
 }

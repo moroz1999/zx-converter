@@ -8,7 +8,7 @@ import {Observable, tap} from 'rxjs';
 import {ZxScreenService} from '../../services/zx-screen.service';
 
 @Component({
-  selector: 'app-chrd-converter',
+  selector: 'chrd-converter',
   templateUrl: './chrd-converter.component.html',
   styleUrls: ['./chrd-converter.component.scss'],
 })
