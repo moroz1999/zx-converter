@@ -1,35 +1,35 @@
 <mat-card>
-  <mat-card-header><h1>Client-side converter from PC images to ZX Spectrum's chr$</h1></mat-card-header>
-  <mat-card-content>
-    <h2>How to use</h2>
-    <ol role="list">
-      <li role="listitem">Prepare PNG image in some PC editor. Image width/height should be a multiple of 8</li>
-      <li role="listitem">Load it</li>
-      <li role="listitem">Convert it to see the preview</li>
-      <li role="listitem">Download result in chr$ format</li>
-    </ol>
-    <p>
-      Notes: Only standard mode (type 9) is supported.
-    </p>
-    <app-image-loader
-      (loaded)="imageLoaded($event)"
-      (fileName)="imageFileName($event)"
-    ></app-image-loader>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary" *ngIf="loaded" type="button" (click)="convertImage()">Convert</button>
-    <button mat-raised-button color="warn" *ngIf="converted" type="button" (click)="saveImage()">Download</button>
-  </mat-card-actions>
+    <mat-card-header><h1>Client-side converter from PC images to ZX Spectrum's chr$</h1></mat-card-header>
+    <mat-card-content>
+        <h2>How to use</h2>
+        <ol role="list">
+            <li role="listitem">Prepare PNG image in some PC editor. Image width/height should be a multiple of 8</li>
+            <li role="listitem">Load it</li>
+            <li role="listitem">Convert it to see the preview</li>
+            <li role="listitem">Download result in chr$ format</li>
+        </ol>
+        <p>
+            Notes: Only standard mode (type 9) is supported.
+        </p>
+        <app-image-loader
+                (loaded)="imageLoaded($event)"
+                (fileName)="imageFileName($event)"
+        ></app-image-loader>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" *ngIf="loaded" type="button" (click)="convertImage()">Convert</button>
+        <button mat-raised-button color="warn" *ngIf="converted" type="button" (click)="saveImage()">Download</button>
+    </mat-card-actions>
 </mat-card>
 <mat-card *ngIf="error" class="error-message">
-  <mat-card-content>{{ error }}</mat-card-content>
+    <mat-card-content>{{ error }}</mat-card-content>
 </mat-card>
 <mat-card *ngIf="imageData">
-  <mat-card-content>
-    <app-canvas-preview
-      [width]="width"
-      [height]="height"
-      [imageData]="imageData"
-    ></app-canvas-preview>
-  </mat-card-content>
+    <mat-card-content>
+        <app-canvas-preview
+                [width]="width"
+                [height]="height"
+                [imageData]="imageData"
+        ></app-canvas-preview>
+    </mat-card-content>
 </mat-card>

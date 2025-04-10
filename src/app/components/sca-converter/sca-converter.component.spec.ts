@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ScaConverterComponent } from './sca-converter.component';
+import {ScaConverterComponent} from './sca-converter.component';
 
-describe('AviConverterComponent', () => {
-  let component: ScaConverterComponent;
-  let fixture: ComponentFixture<ScaConverterComponent>;
+describe('ScaConverterComponent', () => {
+    let component: ScaConverterComponent;
+    let fixture: ComponentFixture<ScaConverterComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ScaConverterComponent ]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ScaConverterComponent],
+        })
+            .compileComponents();
 
-    fixture = TestBed.createComponent(ScaConverterComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(ScaConverterComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -1,5 +1,5 @@
 export interface UploadedImageData {
-  width: number;
-  height: number;
-  image: HTMLImageElement;
+    width: number;
+    height: number;
+    image: HTMLImageElement;
 }

@@ -1,7 +1,7 @@
-import {SplitRgbColor} from '../types/split-rgb-color';
+import {SplitRgbColor} from '../services/palette/split-rgb-color';
 
 export class ColorInfo {
-  diff?: number;
-  color?: SplitRgbColor;
-  code?: string;
+    diff?: number;
+    color?: SplitRgbColor;
+    code?: string;
 }
