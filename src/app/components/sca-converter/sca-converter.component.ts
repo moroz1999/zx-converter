@@ -22,6 +22,8 @@ export class ScaConverterComponent {
     public frames: ParsedFrame[] | null = null;
     public convertedData: Uint8Array | null = null;
 
+    public gifImageElement: null | HTMLImageElement = null;
+
     private mode = ScaMode.MODE_0;
     private mode0Width = 256;
     private mode0Height = 192;
@@ -36,6 +38,7 @@ export class ScaConverterComponent {
         imageElement$
             .pipe(
                 tap(imageElement => {
+                    this.gifImageElement = imageElement;
                     if (this.mode !== ScaMode.MODE_0) {
                         return;
                     }
@@ -75,7 +78,7 @@ export class ScaConverterComponent {
                 }),
             )
             .subscribe({
-                next: (data:Uint8Array) => {
+                next: (data: Uint8Array) => {
                     this.convertedData = data;
                     this.converted = true;
                 },

@@ -15,7 +15,7 @@ const intDuration = 1000 / 50;
 })
 export class ScaGeneratorService {
 
-    private header = 'sca';
+    private header = 'SCA';
     private version = 1;
 
     constructor(

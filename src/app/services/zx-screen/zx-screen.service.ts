@@ -149,15 +149,15 @@ export class ZxScreenService {
 
         let brightness;
         if (colorCode === '0000' || colorCode === '1000') {
-            brightness = attribute.substring(1, 1);
+            brightness = attribute.substring(1, 2);
         } else {
             brightness = colorCode.substring(0, 1);
         }
 
         if (ink) {
-            attribute = '0' + brightness + attribute.substring(2, 3) + colorCode.substring(1, 3);
+            attribute = '0' + brightness + attribute.substring(2, 5) + colorCode.substring(1, 4);
         } else {
-            attribute = '0' + brightness + colorCode.substring(1, 3) + attribute.substring(5, 3);
+            attribute = '0' + brightness + colorCode.substring(1, 4) + attribute.substring(5, 8);
         }
         this.attributes[attrY][attrX] = attribute;
     }

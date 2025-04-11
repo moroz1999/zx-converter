@@ -2,12 +2,12 @@
     <mat-card-header><h1>Client-side converter from animated GIF to ZX Spectrum's SCA</h1></mat-card-header>
     <mat-card-content>
         <h2>How to use</h2>
-        <!--        <ol role="list">-->
-        <!--            <li role="listitem">Prepare PNG image in some PC editor. Image width/height should be 320*240, where central 256*192 are a standard 6912 image and the rest are border area</li>-->
-        <!--            <li role="listitem">Load it</li>-->
-        <!--            <li role="listitem">Convert it to see the preview</li>-->
-        <!--            <li role="listitem">Download result in bsc format</li>-->
-        <!--        </ol>-->
+                <ol role="list">
+                    <li role="listitem">Prepare animated GIF image in some PC editor.</li>
+                    <li role="listitem">Load it to see it in preview</li>
+                    <li role="listitem">Convert it</li>
+                    <li role="listitem">Download result in SCA format</li>
+                </ol>
         <app-image-loader
                 (loaded)="imageLoaded($event)"
         >Animated GIF
@@ -21,13 +21,10 @@
 <mat-card *ngIf="error" class="error-message">
     <mat-card-content>{{ error }}</mat-card-content>
 </mat-card>
-<mat-card *ngIf="frames">
+<mat-card *ngIf="frames && gifImageElement">
     <mat-card-content>
-        preview?
-        <!--        <app-canvas-preview-->
-        <!--                [width]="width"-->
-        <!--                [height]="height"-->
-        <!--                [imageData]="imageData"-->
-        <!--        ></app-canvas-preview>-->
+        <div>Loaded GIF:</div>
+        <img [src]="gifImageElement.src" alt="GIF"/>
+        <div>Frames: {{ frames.length }}</div>
     </mat-card-content>
 </mat-card>
